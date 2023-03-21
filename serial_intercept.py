@@ -1,6 +1,7 @@
 from argparse import ArgumentParser
 
 from serial import Serial
+import time
 
 def main():
     parser = ArgumentParser()
@@ -17,14 +18,14 @@ def main():
             data_pc.extend(x)
         if data_pc:
             ser_dut.write(data_pc)
-            print(f"PC,{''.join(format(x, '02x') for x in data_pc)}")
+            print(f"{time.time()},PC,{''.join(format(x, '02x') for x in data_pc)}")
 
         data_dut = bytearray()
         while (x := ser_dut.read()):
             data_dut.extend(x)
         if data_dut:
             ser_dut.write(data_dut)
-            print(f"DUT,{''.join(format(x, '02x') for x in data_dut)}")
+            print(f"{time.time()},DUT,{''.join(format(x, '02x') for x in data_dut)}")
             ser_pc.write(data_dut)
 
 if __name__ == "__main__":
